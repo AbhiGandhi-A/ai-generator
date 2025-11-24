@@ -1,0 +1,66 @@
+.credit-counter {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.credits-display {
+  text-align: center;
+}
+
+.credits-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: var(--spacing-sm);
+}
+
+.credits-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+.reset-info {
+  text-align: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
+  padding-left: var(--spacing-lg);
+}
+
+.reset-label {
+  font-size: 0.75rem;
+  opacity: 0.8;
+  margin-bottom: 0.25rem;
+}
+
+.reset-days {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.credit-counter.loading {
+  opacity: 0.6;
+  animation: pulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+  .credit-counter {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .reset-info {
+    border-left: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-left: 0;
+    padding-top: var(--spacing-lg);
+  }
+
+  .credits-number {
+    font-size: 2rem;
+  }
+}
