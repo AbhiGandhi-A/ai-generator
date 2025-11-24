@@ -37,8 +37,20 @@ export default function Login({ onLogin }) {
       const response = await axios.post("/api/auth/login", formData)
       const { token, user } = response.data
 
+      // Save session
+      localStorage.setItem("authToken", token)
+      localStorage.setItem("user", JSON.stringify(user))
+
+      // Update parent state
       onLogin(token, user)
-      navigate("/dashboard")
+
+      // Redirect properly
+      if (user.role === "admin") {
+        navigate("/admin")
+      } else {
+        navigate("/dashboard")
+      }
+
     } catch (error) {
       setGeneralError(error.response?.data?.error || "Login failed. Please try again.")
     } finally {

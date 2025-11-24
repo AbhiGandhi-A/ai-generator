@@ -70,6 +70,7 @@
 .users-section h2 {
   font-size: 1.5rem;
   margin-bottom: var(--spacing-xl);
+  color: white;
 }
 
 .users-table {
@@ -92,6 +93,8 @@
 .users-table td {
   padding: var(--spacing-lg);
   border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: 0.875rem;
 }
 
 .users-table tbody tr:hover {

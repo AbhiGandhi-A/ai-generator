@@ -12,17 +12,22 @@ import AdminPanel from "./pages/AdminPanel"
 import ProtectedRoute from "./components/ProtectedRoute"
 
 function App() {
-  const [authToken, setAuthToken] = useState(() => localStorage.getItem("authToken"))
+  const [authToken, setAuthToken] = useState(null)
   const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true) // ⬅️ ADDED
 
   useEffect(() => {
-    if (authToken) {
-      const storedUser = localStorage.getItem("user")
-      if (storedUser) {
-        setUser(JSON.parse(storedUser))
-      }
+    // Load user from localStorage BEFORE rendering routes
+    const token = localStorage.getItem("authToken")
+    const storedUser = localStorage.getItem("user")
+
+    if (token && storedUser) {
+      setAuthToken(token)
+      setUser(JSON.parse(storedUser))
     }
-  }, [authToken])
+
+    setLoading(false) // ⬅️ mark that we're ready
+  }, [])
 
   const handleLogin = (token, userData) => {
     setAuthToken(token)
@@ -38,12 +43,16 @@ function App() {
     localStorage.removeItem("user")
   }
 
+  // ⛔ Prevent Router from rendering until user is loaded
+  if (loading) return <div>Loading...</div>
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register onLogin={handleLogin} />} />
+
         <Route
           path="/dashboard"
           element={
@@ -52,6 +61,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/history"
           element={
@@ -60,6 +70,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/generation/:id"
           element={
@@ -68,10 +79,11 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/admin"
           element={
-            <ProtectedRoute authToken={authToken} user={user} onLogout={handleLogout} requireAdmin>
+            <ProtectedRoute authToken={authToken} user={user} requireAdmin onLogout={handleLogout}>
               <AdminPanel user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           }
